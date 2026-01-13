@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TalkMobile Agent Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex flex-col">
+
+<header class="bg-white shadow px-6 py-4">
+    <h1 class="text-2xl font-bold">TalkMobile Agent Portal</h1>
+    <div class="mt-2 text-sm text-slate-600">
+        <span><strong>Caller Type:</strong> {{ caller }}</span> |
+        <span><strong>Calling From:</strong> {{ calling_number }}</span> |
+        <span><strong>Number Discussed:</strong> {{ issue_number }}</span>
+    </div>
+</header>
+
+<main class="flex-1 p-6 flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow p-8 w-full max-w-md text-center space-y-6">
+
+        <h2 class="text-xl font-bold">Available Action</h2>
+
+        <a href="/flow/billing/blind_payment"
+           class="block px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold">
+            Blind Payment
+        </a>
+
+    </div>
+</main>
+
+<footer class="bg-white border-t px-6 py-4 flex justify-between">
+    <button onclick="copyCallNote()"
+            class="px-4 py-2 bg-green-600 text-white rounded-lg font-semibold">
+        Copy Call Note
+    </button>
+
+    <form method="POST" action="/restart">
+        <button class="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold">
+            Restart Session
+        </button>
+    </form>
+</footer>
+
+<script>
+function copyCallNote() {
+    fetch("/call_note")
+        .then(r => r.text())
+        .then(text => {
+            navigator.clipboard.writeText(text);
+            alert("Call note copied");
+        });
+}
+</script>
+
+</body>
+</html>
+

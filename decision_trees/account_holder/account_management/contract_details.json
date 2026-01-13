@@ -1,0 +1,151 @@
+{
+  "start": "account_details",
+  "nodes": {
+    "account_details": {
+      "type": "choice",
+      "title": "Choose Account Detail",
+      "description": "What does the customer want to discuss?",
+      "choices": [
+        {"label": "Plan Price", "next": "otac_2l_choice"},
+        {"label": "Plan Allowance", "next": "no_otac"},
+        {"label": "Activation Date /  Bill Issue Date", "next": "otac_2l_choice"},
+        {"label": "Eligibility Date", "next": "otac_2l_choice"},
+        {"label": "Online Account Information", "next": "otac_must_choice"},
+        {"label": "Port In / Port Out", "next": "otac_must_choice"}
+      ],
+      "log": "Account Detail Choice"
+    },
+    "otac_2l_choice": {
+      "type": "choice",
+      "title": "OTAC or Second Level Questions",
+      "description": "Did the customer pass OTAC OR Second Level Questions",
+      "choices": [
+        {"label": "Passed OTAC", "next": "otac_2l"},
+        {"label": "Passed Second Level", "next": "otac_2l"},
+        {"label": "Failed", "next": "auth_failed"}
+      ],
+      "log": "OTAC or 2nd Level"
+    },
+    "otac_must_choice": {
+      "type": "choice",
+      "title": "OTAC IS A MUST",
+      "description": "Did the customer pass OTAC",
+      "choices": [
+        {"label": "Passed OTAC", "next": "otac_must"},
+        {"label": "Failed", "next": "auth_failed"}
+      ],
+      "log": "OTAC or 2nd Level"
+    },
+    "contract_type": {
+      "type": "choice",
+      "title": "Contract Type",
+      "description": "30 Day or 12 Month",
+      "choices": [
+        {"label": "30 Day", "next": "price_30d"},
+        {"label": "12 Month", "next": "price_12m"}
+      ],
+      "log": "Payment history verified"
+    },
+    "price_30d": {
+      "title": "Enter Plan Pricing",
+      "description": "How much is the price for the plan?",
+      "type": "input",
+      "input_label": "Enter The Plan Price",
+      "placeholder": "12",
+      "variable": "price_30d_var",
+      "next": "gb_30d",
+      "log": "30 Day Plan Price"
+    },
+    "gb_30d": {
+      "title": "Enter Amount of GB",
+      "description": "How much is the data allowance?",
+      "type": "input",
+      "input_label": "Enter GB Amount",
+      "placeholder": "100",
+      "variable": "gb_30d_var",
+      "next": "30_day_tnc",
+      "log": "30 Day Plan Allowance"
+    },
+    "price_12m": {
+      "title": "Enter Plan Pricing",
+      "description": "How much is the price for the plan?",
+      "type": "input",
+      "input_label": "Enter The Plan Price",
+      "placeholder": "100",
+      "variable": "price_12m_var",
+      "next": "gb_12m",
+      "log": "12 Month Plan Price"
+    },
+    "gb_12m": {
+      "title": "Enter Amount of GB",
+      "description": "How much is the data allowance?",
+      "type": "input",
+      "input_label": "Enter The Amount of GB",
+      "placeholder": "12",
+      "variable": "gb_12m_var",
+      "next": "12_month_tnc",
+      "log": "12 Month Plan Allowance"
+    },
+    "12_month_tnc": {
+      "type": "choice",
+      "title": "12 Month Plan TnC",
+      "description": "You are entering into an agreement with Talkmobile Limited. The plan you have chosen is (MySimo Savvy) and includes Unlimited UK minutes, Unlimited UK texts and {gb_12m_var}GB UK data allowance at a cost of £{price_12m_var} a month including VAT. This agreement is for a 12-month rolling contract which starts within 24-48 hours. Your bill will be produced on the same day every month and you will receive a text when your bill is ready. Your bill will be available to view online at talkmobile.co.uk/customer/account. Your first bill will be a bit different than the line rental, as it will be prorated to cover from when the contract started till the bill cycle date plus a full month in advance. Your data allowance is also pro-rated for the time between upgrade and your next bill. You will receive your full monthly allowance on your next bill date and going forwards. Your bills will be taken from the DD set up on the account and the billed amount will be taken 14 days after your billing date. Your allowances will renew on the date your bill is produced You still have roaming included in your plan however, the data roaming fair use limit is now 5GB. If you need more information, you can find it at https://www.talkmobile.co.uk/ roaming-in-europe You have the right to cancel your order no later than 14 calendar days after the day you receive your upgrade confirmation e-mail. To cancel your order within this period please call our Help Team on 0333 304 8064. Cancellation after the first 14 days may incur an Early Termination Fee to be paid by you. Please confirm you understand and agree to these terms, have received and reviewed your contract summary and are happy to continue?",
+      "choices": [
+        {"label": "Yes", "next": "order_number"},
+        {"label": "No", "next": "cancel_upgrade"}
+      ],
+      "log": "12 Month Plan TnC"
+    },
+    "30_day_tnc": {
+      "type": "choice",
+      "title": "Read The 30 Day Plan TnC To The Customer",
+      "description": "You are entering into an agreement with Talkmobile Limited. The plan you have chosen is (MySimo Flex) and includes Unlimited UK minutes, Unlimited UK texts and {gb_30d_var}GB UK data allowance at a cost of £{price_30d_var} a month including VAT. This agreement is for a 30-day rolling contract which starts within 24-48 hours. Your bill will be produced on the same day every month and you will receive a text when your bill is ready. Your bill will be available to view online at talkmobile.co.uk/customer/account. Your first bill will be a bit different than the line rental, as it will be prorated to cover from when the contract started till the bill cycle date plus a full month in advance. Your data allowance is also pro-rated for the time between upgrade and your next bill. You will receive your full monthly allowance on your next bill date and going forwards. Your bills will be taken from the DD set up on the account and the billed amount will be taken 14 days after your billing date. Your allowances will renew on the date your bill is produced You still have roaming included in your plan however, the data roaming fair use limit is now 5GB. If you need more information, you can find it at https://www.talkmobile.co.uk/ roaming-in-europe You have the right to cancel your order no later than 14 calendar days after the day you receive your upgrade confirmation e-mail. To cancel your order within this period please call our Help Team on 0333 304 8064. Cancellation after the first 14 days may incur an Early Termination Fee to be paid by you. Please confirm you understand and agree to these terms, have received and reviewed your contract summary and are happy to continue?",
+      "choices": [
+        {"label": "Yes", "next": "order_number"},
+        {"label": "No", "next": "cancel_upgrade"}
+      ],
+      "log": "30 Day Plan TnC"
+    },
+    "order_number": {
+      "title": "Order Number",
+      "description": "Enter the Order Number for the Upgrade from Magento",
+      "type": "input",
+      "input_label": "Enter the Order Number",
+      "placeholder": "0000000000",
+      "variable": "order_num_var",
+      "next": "confirm_upgrade_summary",
+      "log": "Order Number"
+    },
+    "confirm_upgrade_summary": {
+      "type": "choice",
+      "title": "Confirm Upgrade Summary",
+      "description": "Check the Account for the GB allowance",
+      "choices": [
+        {"label": "Confirm All", "next": "process_upgrade"},
+        {"label": "Cancel", "next": "cancel_upgrade"}
+      ],
+      "log": "Upgrade summary reviewed"
+    },
+    "otac_2l": {
+      "type": "resolution",
+      "title": "Customer should Pass OTAC or Second Level Security Questions",
+      "log": "OTAC or 2nd Level"
+    },
+    "otac_must": {
+      "type": "resolution",
+      "title": "Customer MUST pass OTAC regardless of Second Level Security Questions",
+      "log": "OTAC is a must"
+    },
+    "auth_failed": {
+      "type": "resolution",
+      "title": "Customer Didn't pass required authentication",
+      "log": "Customer Failed to Pass"
+    },
+    "no_otac": {
+      "type": "resolution",
+      "title": "OTAC isn't required",
+      "log": "OTAC isn't required"
+    }
+  }
+}
+

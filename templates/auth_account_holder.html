@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.tailwindcss.com"></script>
+<title>Account Authentication</title>
+
+<script>
+function handleSubmit(e) {
+    const nameChecked = document.getElementById("name_check").checked;
+    if (!nameChecked) {
+        e.preventDefault();
+        document.getElementById("nameFailModal").classList.remove("hidden");
+    }
+}
+</script>
+</head>
+
+<body class="bg-slate-100 flex items-center justify-center min-h-screen">
+<div class="bg-white p-8 rounded-xl shadow-md w-full max-w-lg">
+
+<h1 class="text-2xl font-bold mb-6">Account Authentication</h1>
+
+<form method="POST" action="{{ url_for('authenticate') }}" onsubmit="handleSubmit(event)" class="space-y-6">
+
+<!-- PRIMARY CHECKS -->
+<div class="space-y-2">
+    <label class="font-semibold">Primary Verification</label>
+
+    <div>
+        <input type="checkbox" id="name_check" name="name_check">
+        <label for="name_check">First & Last Name</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="address_check">
+        <label>Address + Postcode</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="dob_check">
+        <label>Date of Birth</label>
+    </div>
+</div>
+
+<!-- ADDRESS ALTERNATIVES -->
+<div class="border-t pt-4 space-y-2">
+    <label class="font-semibold">Alternative Verification for Address + Postcode</label>
+    <div><input type="checkbox" name="addr_otac"> Verify with OTAC + 2 SLQ</div>
+    <div><input type="checkbox" name="addr_2slq"> 5 Second Level Questions</div>
+    <div><input type="checkbox" name="addr_5slq"> EGAIN</div>
+</div>
+
+<!-- DOB ALTERNATIVES -->
+<div class="border-t pt-4 space-y-2">
+    <label class="font-semibold">Alternative Verification for Date of Birth</label>
+    <div><input type="checkbox" name="dob_call_validate"> Call Validate</div>
+    <div><input type="checkbox" name="dob_egain"> EGAIN</div>
+</div>
+
+<button type="submit"
+        class="w-full py-2 bg-blue-600 text-white rounded-lg">
+Authenticate
+</button>
+
+</form>
+
+<!-- AUTH FAILURE -->
+<form action="{{ url_for('call_note') }}" method="GET" class="mt-4">
+    <button class="w-full py-2 bg-red-600 text-white rounded-lg">
+        Authentication Failure
+    </button>
+</form>
+
+</div>
+
+<!-- NAME FAIL MODAL -->
+<div id="nameFailModal"
+     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+<div class="bg-white p-6 rounded-xl shadow-md max-w-md">
+    <h2 class="text-xl font-bold mb-4">Verification Failed</h2>
+    <p class="mb-4">
+        Customer failed First & Last Name verification.
+        Refer to Back Office and advise customer to call back.
+    </p>
+    <a href="{{ url_for('call_note') }}"
+       class="block text-center py-2 bg-red-600 text-white rounded-lg">
+        Generate Call Note
+    </a>
+</div>
+</div>
+
+</body>
+</html>
+

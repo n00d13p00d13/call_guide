@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-start py-10">
+
+<div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-xl">
+
+    <!-- Node title -->
+    <h2 class="text-xl font-semibold mb-4">{{ node.title }}</h2>
+    <p class="mb-6 text-slate-700">{{ node.description }}</p>
+
+    {% if node.type == "choice" %}
+    <form method="POST" action="{{ url_for('flow_step') }}" class="space-y-3">
+        {% for c in node.choices %}
+        <button type="submit" name="choice" value="{{ loop.index0 }}"
+                class="w-full py-2 bg-blue-600 text-white rounded-lg">
+            {{ c.label }}
+        </button>
+        {% endfor %}
+    </form>
+    {% elif node.type == "info" %}
+    <form method="POST" action="{{ url_for('flow_step') }}">
+        <input type="hidden" name="advance_info" value="1">
+        <button type="submit" class="w-full py-2 bg-blue-500 text-white rounded-lg">Next</button>
+    </form>
+        {% elif node.type == "input" %}
+    <form method="POST" action="{{ url_for('flow_step') }}">
+        <label class="block text-sm font-bold mb-2 text-slate-600">
+            {{ node.input_label }}
+        </label>
+        <input type="text" name="flow_input" required
+               placeholder="e.g. {{ node.placeholder }}"
+               class="w-full p-3 border rounded-lg mb-4 shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
+        <button type="submit" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            Next
+        </button>
+    </form>
+    {% elif node.type == "resolution" %}
+    <form method="POST" action="{{ url_for('flow_step') }}">
+        <input type="hidden" name="finish" value="1">
+        <button class="w-full py-2 bg-green-600 text-white rounded-lg">Finish</button>
+    </form>
+    {% endif %}
+
+</div>
+
+<form method="POST" action="{{ url_for('abort_flow') }}" class="mt-6">
+    <button
+        type="submit"
+        class="w-full py-2 bg-slate-600 text-white rounded-lg">
+        Return to Dashboard and Clear Flow
+    </button>
+</form>
+
+</body>
+</html>
+

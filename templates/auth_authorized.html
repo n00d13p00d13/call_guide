@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.tailwindcss.com"></script>
+<title>Authorized User Verification</title>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen">
+<div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md text-center">
+    <h1 class="text-2xl font-bold mb-6">Authorized User Verification</h1>
+    <p class="mb-6">Did the customer's username and password work?</p>
+    <form method="POST" action="{{ url_for('authenticate') }}" class="flex justify-around">
+        <button type="submit" name="verification_result" value="confirmed"
+                class="py-2 px-4 bg-green-600 text-white rounded-lg">Confirmed</button>
+        <button type="submit" name="verification_result" value="failed"
+                class="py-2 px-4 bg-red-600 text-white rounded-lg">Failed</button>
+    </form>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TalkMobile Agent Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex flex-col">
+
+<!-- ================= HEADER ================= -->
+<header class="bg-white shadow px-6 py-4">
+    <h1 class="text-2xl font-bold">TalkMobile Agent Portal</h1>
+    <div class="mt-2 text-sm text-slate-600">
+        <span><strong>Caller Type:</strong> {{ caller }}</span> |
+        <span><strong>Calling From:</strong> {{ calling_number }}</span> |
+        <span><strong>Number Discussed:</strong> {{ issue_number }}</span> |
+        <span><strong>Customer:</strong> {{ customer_name }}</span>
+    </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<div class="flex gap-6 h-[calc(100vh-200px)]">
+
+    <!-- -------- SESSION HISTORY (LEFT) -------- -->
+    <div class="bg-white rounded-xl shadow p-4 w-1/3 overflow-y-auto">
+        <h2 class="text-xl font-bold mb-3">Session History</h2>
+
+        {% if session_history %}
+            <ul class="list-disc pl-6 space-y-1">
+                {% for h in session_history %}
+                    {% if h.label %}
+                        <li>{{ h.node }}: {{ h.label }}</li>
+                    {% elif h.resolution %}
+                        <li>{{ h.resolution }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-slate-500">No actions taken yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- -------- TABS (RIGHT) -------- -->
+    <div class="bg-white rounded-xl shadow p-4 flex-1 overflow-y-auto">
+
+        <div class="flex gap-4 border-b mb-4">
+            <button class="tab-btn font-semibold" data-tab="account">Account Management</button>
+            <button class="tab-btn" data-tab="billing">Billing</button>
+            <button class="tab-btn" data-tab="technical">Technical</button>
+            <button class="tab-btn" data-tab="termination">Termination</button>
+        </div>
+
+        <!-- ACCOUNT MANAGEMENT -->
+        <div class="tab-content" id="account">
+            <ul class="space-y-2">
+                <li><a href="/flow/account_management/upgrade_plan" class="link">Upgrade Plan</a></li>
+                <li><a href="/flow/account_management/upgrade_handset" class="link">Upgrade Handset</a></li>
+                <li><a href="/flow/account_management/add_connection" class="link">Add New Connection</a></li>
+                <li><a href="/flow/account_management/downgrade_plan" class="link">Downgrade Plan</a></li>
+                <li><a href="/flow/account_management/sim_replacement" class="link">SIM Replacement</a></li>
+                <li><a href="/flow/account_management/sim_activation" class="link">Sim Activation</a></li>
+                <li><a href="/flow/account_management/contract_details" class="link">Discuss Contract Details</a></li>
+                <li><a href="/flow/account_management/adding_pin" class="link">Adding Pin</a></li>
+                <li><a href="/flow/account_management/roaming_charges" class="link">International / Roaming Charges</a></li>
+                <li><a href="/flow/account_management/change_account_details" class="link">Change Account Details</a></li>
+                <li><a href="/flow/account_management/feature_activation" class="link">Feature Activation</a></li>
+                <li><a href="/flow/account_management/spend_limit" class="link">Spend Limit</a></li>
+                <li><a href="/flow/account_management/lost_stolen" class="link">Lost / Stolen</a></li>
+                <li><a href="/flow/account_management/blacklist_unblacklist" class="link">Blacklist / Unblacklist</a></li>
+                <li><a href="/flow/account_management/msisdn_change" class="link">MSISDN Change</a></li>
+                <li><a href="/flow/account_management/add_authorized_person" class="link">Add Authorized Person</a></li>
+                <li><a href="/flow/account_management/puk_code" class="link">PUK Code</a></li>
+                <li><a href="/flow/account_management/fraud" class="link">Fraud</a></li>
+                <li><a href="/flow/account_management/gone_away" class="link">Gone Away / Bereavement</a></li>
+                <li><a href="/flow/account_management/power_of_attorney" class="link">Power of Attorney</a></li>
+                <li><a href="/flow/account_management/transfer_of_ownership" class="link">Transfer of Ownership</a></li>
+            </ul>
+        </div>
+
+        <!-- BILLING -->
+        <div class="tab-content hidden" id="billing">
+            <ul class="space-y-2">
+                <li><a href="/flow/billing/make_payment" class="link">Make a Payment</a></li>
+                <li><a href="/flow/billing/refunds" class="link">Refunds & Credits</a></li>
+                <li><a href="/flow/billing/p2p" class="link">Promise to Pay</a></li>
+                <li><a href="/flow/billing/suspension" class="link">Suspension</a></li>
+            </ul>
+        </div>
+
+        <!-- TECHNICAL -->
+        <div class="tab-content hidden" id="technical">
+            <ul class="space-y-2">
+                <li><a href="/flow/technical/no_data" class="link">No Data</a></li>
+                <li><a href="/flow/technical/no_calls" class="link">No Calls</a></li>
+                <li><a href="/flow/technical/both" class="link">No Calls & Data</a></li>
+                <li><a href="#" class="link text-slate-400">Other (Coming Soon)</a></li>
+            </ul>
+        </div>
+
+        <!-- TERMINATION -->
+        <div class="tab-content hidden" id="termination">
+            {% if not restricted %}
+            <ul class="space-y-2">
+                <li><a href="/flow/termination/pac" class="link">Get PAC Code</a></li>
+                <li><a href="/flow/termination/stac" class="link">Get STAC Code</a></li>
+                <li><a href="/flow/termination/terminate" class="link">Terminate on Spot</a></li>
+            </ul>
+            {% else %}
+            <p class="text-red-600 font-semibold">
+                Restricted access: Termination options unavailable.
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-white border-t px-6 py-4 flex justify-between items-center">
+    <div>
+        <button onclick="copyCallNote()"
+                class="px-4 py-2 bg-green-600 text-white rounded-lg font-semibold">
+            Copy Call Note
+        </button>
+    </div>
+
+    <form method="POST" action="/restart">
+        <button class="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold">
+            Restart Session
+        </button>
+    </form>
+</footer>
+
+<!-- ================= JS ================= -->
+<script>
+    // Tabs
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.add("hidden"));
+            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("font-semibold"));
+            document.getElementById(btn.dataset.tab).classList.remove("hidden");
+            btn.classList.add("font-semibold");
+        });
+    });
+
+    // Copy call note (backend authoritative)
+    function copyCallNote() {
+        fetch("/call_note")
+            .then(r => r.text())
+            .then(text => {
+                navigator.clipboard.writeText(text);
+                alert("Call note copied to clipboard");
+            });
+    }
+</script>
+
+<style>
+    .link {
+        display: block;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        background-color: #f1f5f9;
+    }
+    .lin
+

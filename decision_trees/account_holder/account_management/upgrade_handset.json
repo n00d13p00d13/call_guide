@@ -1,0 +1,201 @@
+{
+  "start": "check_eligibility",
+  "nodes": {
+    "otac": {
+      "type": "choice",
+      "title": "OTAC",
+      "description": "Did the customer pass OTAC?",
+      "choices": [
+        {"label": "Passed", "next": "check_eligibility"},
+        {"label": "Failed", "next": "otac_failed"}
+      ],
+      "log": "OTAC"
+    },
+    "check_eligibility": {
+      "type": "choice",
+      "title": "Check Eligibility",
+      "description": "Is the customer eligible for Handset Upgrade?",
+      "choices": [
+        {"label": "Yes", "next": "offer_review"},
+        {"label": "No", "next": "eligibility_date"}
+      ],
+      "log": "Checked contract eligibility"
+    },
+    "eligibility_date": {
+      "title": "Not Eligibile",
+      "description": "Customer is not eligible at the moment, Advise the customer of the Eligibility Date",
+      "type": "input",
+      "input_label": "Enter Eligibility Date",
+      "placeholder": "DD-MM-YYYY",
+      "variable": "eligibility_date_var",
+      "next": "ineligible_upgrade",
+      "log": "Eligibility Date"
+    },
+    "offer_review": {
+      "type": "choice",
+      "title": "Offer Review",
+      "description": "Refer to Magento and check the devices with the customer. Did the customer agree to the devices' pricing?",
+      "choices": [
+        {"label": "Customer Agreed", "next": "upfront_payment"},
+        {"label": "Customer Refused", "next": "cancel_upgrade"}
+      ],
+      "log": "Offer Review"
+    },
+    "upfront_payment": {
+      "type": "choice",
+      "title": "Upfront Payment",
+      "description": "Refer to Magento and Make the Upfront Payment. Did the Payment go through?",
+      "choices": [
+        {"label": "Yes", "next": "device_name"},
+        {"label": "No", "next": "payment_failed_details"}
+      ],
+      "log": "Upfront Payment"
+    },
+    "payment_failed_details": {
+      "title": "Enter Offer Details",
+      "description": "Enter Device Name, Upfront Cost, Cost Per Month, Data Allowance, Contract Period, Efficiency Label.",
+      "type": "input",
+      "input_label": "Enter each detail followed by a comma.",
+      "placeholder": "IPhone 17, 100, 12.99, 150GB, 12 month, A",
+      "variable": "payment_failed_details_var",
+      "next": "payment_failed",
+      "log": "Offer Details"
+    },
+    "device_name": {
+      "title": "Device Name",
+      "description": "Enter Device Name",
+      "type": "input",
+      "input_label": "Enter Device Name",
+      "placeholder": "IPhone 17 Pro Max",
+      "variable": "device_name_var",
+      "next": "upfront_cost",
+      "log": "Device Name"
+    },
+    "upfront_cost": {
+      "title": "Upfront Cost",
+      "description": "Enter Upfront Cost",
+      "type": "input",
+      "input_label": "Enter Upfront Cost",
+      "placeholder": "100",
+      "variable": "upfront_cost_var",
+      "next": "cost_per_month",
+      "log": "Upfront Cost"
+    },
+    "cost_per_month": {
+      "title": "Cost Per Month",
+      "description": "Enter The Cost per Month",
+      "type": "input",
+      "input_label": "Enter The Cost per Month",
+      "placeholder": "100",
+      "variable": "cost_per_month_var",
+      "next": "contract_period",
+      "log": "Upfront Cost"
+    },
+    "contract_period": {
+      "title": "Contract Period",
+      "description": "12 months / 24 months",
+      "type": "input",
+      "input_label": "Enter the Contract Period",
+      "placeholder": "12 months",
+      "variable": "contract_period_var",
+      "next": "energy_eff_label",
+      "log": "Contract Period"
+    },
+    "energy_eff_label": {
+      "title": "Energy Efficiency Label",
+      "description": "A / B / C / D",
+      "type": "input",
+      "input_label": "Enter the Energy Efficiency Label",
+      "placeholder": "A",
+      "variable": "energy_eff_label_var",
+      "next": "plan_price",
+      "log": "Contract Period"
+    },
+    "plan_price": {
+      "title": "Plan Pricing",
+      "description": "Enter the Pricing of the Customer's Plan",
+      "type": "input",
+      "input_label": "Enter Plan Price",
+      "placeholder": "12.99",
+      "variable": "plan_price_var",
+      "next": "plan_gb",
+      "log": "Plan Price"
+    },
+    "plan_gb": {
+      "title": "Plan Allowance",
+      "description": "Enter the Plan Allowance",
+      "type": "input",
+      "input_label": "Enter the GB Amount",
+      "placeholder": "150",
+      "variable": "plan_gb_var",
+      "next": "handset_tnc",
+      "log": "Plan Allowance"
+    },
+    "handset_tnc": {
+      "type": "choice",
+      "title": "Read the following Device Upgrade TnC to the Customer",
+      "description": "You are entering into an agreement with Talkmobile Limited. The handset you have chosen is {device_name_var} and will cost £ {upfront_cost_var} upfront with a plan of £ {cost_per_month_var} per month and includes Unlimited UK calling minutes, Unlimited UK texts and {plan_gb_var} UK data allowance. This agreement is a {contract_period_var} contract starting within 24 - 48 Working hours. Your new phone & SIM card will be delivered by DPD on the next working day. The energy efficiency label of your device is {energy_eff_label_var}. For more details, please visit https://www.talkmobile.co.uk/energy. Your bill will be generated on either: 4th, 10th, 18th or 26th of every month and you will receive a text when your bill is ready. Your bill will be available to view online at talkmobile.co.uk/ customer/account. Your first bill will be higher than usual, as it will be pro-rated to cover from when the contract started up to the bill cycle date and a full month in advance. Your data allowance is also pro-rated for the time between connection and your first bill. You will receive your full monthly allowance on your bill date and going forwards. A direct debit will be set up using the details you have given us, and the billed amount will be taken 14 days after your billing date. Your allowances renew on the date your bill is produced. You can check your estimated coverage and network speed on our website: https://talkmobile.co.uk/ You have the right to cancel your order no later than 14 calendar days after the day you take delivery of your phone. To cancel your order within this period please chat to us online or call our Help Team on 0333 3048064. Cancellation after the first 14 days will incur an Early Termination Fee to be paid by you. Your Early Termination Fee can be calculated using the information in the Pricing Guide. Order confirmation, Pricing Guide, and the terms of your Agreement with Talkmobile will be sent to you via e-mail. Your application includes a credit check. Please confirm you understand and agree to these terms, have received, and reviewed your contract summary and are happy to continue with the credit check.",
+      "choices": [
+        {"label": "Customer Agreed", "next": "id_check"},
+        {"label": "Customer Refused", "next": "refused_tnc"}
+      ],
+      "log": "Handset Upgrade TnC"
+    },
+    "id_check": {
+      "type": "choice",
+      "title": "Perform ID Check",
+      "description": "Did the Customer Pass the ID Check?",
+      "choices": [
+        {"label": "Passed", "next": "order_number"},
+        {"label": "Failed", "next": "id_check_failed"}
+      ],
+      "log": "ID Check"
+    },
+    "order_number": {
+      "title": "Order Number",
+      "description": "Enter the Order Number for the Upgrade from Magento",
+      "type": "input",
+      "input_label": "Enter the Order Number",
+      "placeholder": "0000000000",
+      "variable": "order_num_var",
+      "next": "process_upgrade",
+      "log": "Order Number"
+    },
+    "process_upgrade": {
+      "type": "resolution",
+      "title": "Upgrade Processed Successfully",
+      "log": "Upgrade completed"
+    },
+    "cancel_upgrade": {
+      "type": "resolution",
+      "title": "Upgrade Cancelled by Customer",
+      "log": "Customer cancelled upgrade"
+    },
+    "payment_failed": {
+      "type": "resolution",
+      "title": "Upfront Payment Failed, Advise the Customer to contact their bank",
+      "log": "Upfront Payment Failed"
+    },
+    "refused_tnc": {
+      "type": "resolution",
+      "title": "Customer Refused The Terms and Conditions",
+      "log": "Upfront Payment Failed"
+    },
+    "id_check_failed": {
+      "type": "resolution",
+      "title": "ID Check Failed, Advise the customer to contact their bank",
+      "log": "ID Check Failure"
+    },
+    "otac_failed": {
+      "type": "resolution",
+      "title": "OTAC is a must to process the Handset Upgrade",
+      "log": "OTAC Failed"
+    },
+    "ineligible_upgrade": {
+      "type": "resolution",
+      "title": "Customer Not Eligible for Handset Upgrade",
+      "log": "Eligibility criteria not met"
+    }
+  }
+}
+

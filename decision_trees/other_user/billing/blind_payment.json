@@ -1,0 +1,51 @@
+{
+  "start": "payment",
+  "nodes": {
+    "payment": {
+      "type": "choice",
+      "title": "Blind Payment",
+      "description": "Unauthorized Users can only make a Blind Payment on the account, Does the customer want to continue?",
+      "choices": [
+        {"label": "Customer Agreed", "next": "payment"},
+        {"label": "Customer Refused", "next": "payment_refused"}
+      ],
+      "log": "Blind Payment"
+    },
+    "payment": {
+      "title": "Payment Amount",
+      "description": "Enter Payment Amount",
+      "type": "input",
+      "input_label": "Enter Payment Amount",
+      "placeholder": "12",
+      "variable": "payment_var",
+      "next": "customer_agreed",
+      "log": "Payment Amount"
+    },
+    "customer_agreed": {
+      "type": "choice",
+      "title": "Process Payment",
+      "description": "Did the payment go through?",
+      "choices": [
+        {"label": "Successful", "next": "payment_success"},
+        {"label": "Failed", "next": "payment_failed"}
+      ],
+      "log": "Blind Payment Proccessed"
+    },
+    "payment_success": {
+      "type": "resolution",
+      "title": "Payment Success",
+      "log": "Blind payment Completed"
+    },
+    "payment_success": {
+      "type": "resolution",
+      "title": "Customer Refused Blind Payment",
+      "log": "Customer Refused Blind Payment"
+    },
+    "payment_failed": {
+      "type": "resolution",
+      "title": "Payment Failed",
+      "log": "Blind payment Failed"
+    }
+  }
+}
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Existing Customer</title>
+    </head>
+    <body class="bg-slate-100 flex items-center justify-center min-h-screen">
+        <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-6">Existing Customer</h1>
+            <form method="POST" action="{{ url_for('existing_customer') }}" class="space-y-4">
+                <div>
+                    <label class="block mb-1 font-medium">Calling Number:</label>
+                    <input type="text" name="calling_number" required
+                                       class="w-full p-2 border rounded" />
+                </div>
+                <div>
+                    <label class="block mb-1 font-medium">Customer Number:</label>
+                    <input type="text" name="issue_number" required
+                                       class="w-full p-2 border rounded" />
+                </div>
+                <div>
+                    <label class="block mb-1 font-medium">Customer Name:</label>
+                    <input type="text" name="customer_name" required
+                                       class="w-full p-2 border rounded" />
+                </div>
+                <div>
+                    <label class="block mb-1 font-medium">Caller Type:</label>
+                    <select name="caller_type" required class="w-full p-2 border rounded">
+                        <option value="">Select</option>
+                        <option value="account_holder">Account Holder</option>
+                        <option value="authorized_user">Authorized User</option>
+                        <option value="other_user">Other User</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-2 bg-blue-600 text-white rounded-lg">Next</button>
+            </form>
+        </div>
+    </body>
+</html>
+

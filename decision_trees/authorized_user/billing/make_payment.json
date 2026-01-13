@@ -1,0 +1,36 @@
+{
+  "start": "verify_account",
+  "nodes": {
+    "verify_account": {
+      "type": "choice",
+      "title": "Verify Account",
+      "description": "Authorized user must confirm account details.",
+      "choices": [
+        {"label": "Verified", "next": "payment_options"},
+        {"label": "Failed", "next": "fail_flow"}
+      ],
+      "log": "Account verification step"
+    },
+    "payment_options": {
+      "type": "choice",
+      "title": "Choose Payment Method",
+      "description": "Select payment type for customer.",
+      "choices": [
+        {"label": "Credit Card", "next": "process_payment"},
+        {"label": "Bank Transfer", "next": "process_payment"}
+      ],
+      "log": "Payment method selected"
+    },
+    "process_payment": {
+      "type": "resolution",
+      "title": "Payment Processed",
+      "log": "Payment completed successfully"
+    },
+    "fail_flow": {
+      "type": "resolution",
+      "title": "Verification Failed",
+      "log": "Cannot process payment"
+    }
+  }
+}
+
